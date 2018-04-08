@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  exekube:
+    image: ilyasotkov/exekube:alicloud
+    working_dir: /project
+    environment:
+      USER: root
+      ENV:
+      TF_INPUT: "0"
+      TF_LOG:
+      # We use Google Cloud Storage for storing Terraform state
+      # That's until Alibaba Cloud OSS is supported as backend
+      # GitHub PR: https://github.com/hashicorp/terraform/pull/16927
+      TFSTATE_BUCKET: dev-internal-ops-5cfb85-alibaba
+      # Used to access the state bucket
+      # TODO Change to SA with only storageAdmin permissions for the bucket
+      TFSTATE_BUCKET_KEY: /project/live/${ENV:?err}/secrets/kube-system/owner.json
+
+      TF_VAR_access_key: /project/live/${ENV:?err}/secrets/kube-system/alicloud/access-key
+      TF_VAR_secret_key: /project/live/${ENV:?err}/secrets/kube-system/alicloud/secret-key
+
+      # TF_VAR is the default directory for Terraform / Terragrunt
+      # Used when we run `xk up` or `xk down` without an argument
+      TF_VAR_default_dir: /project/live/${ENV:?err}/k8s
+
+      # TF_VAR_secrets_dir is used by multiple modules to source secrets from
+      TF_VAR_secrets_dir: /project/live/${ENV:?err}/secrets
+
+      # Keyring is used by the gcp-kms-secret-mgmt module
+      # Also by secrets-fetch and secrets-push scripts
+      # The GCP KMS keyring name to use
+      # TF_VAR_keyring_name: keyring
+
+    # env_file:
+      # - ./live/.env
+    ports:
+      - 8001:8001
+    volumes:
+      - .:/project
+      - ./.config/helm:/root/.helm
+      - ./.config/terragrunt:/root/.terragrunt
+      - ./.config/aliyun:/root/.aliyun
+      - ./.config/kube:/root/.kube
+
+      # EXEKUBE DEVELOPMENT
+      - ../exekube/modules:/exekube-modules
+      - ../exekube/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+      # ---
+
+    command: kubectl proxy --address="0.0.0.0" --accept-hosts ".*"
