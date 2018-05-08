@@ -1,9 +1,9 @@
 # List namespaces to create
 namespaces: []
-
-# Whether create a default deny-all policy and allow access to kube-dns for the namespaces
-networkPolicy:
-  create: false
+  # - name: example
+  #   secure: false
+  #   labels:
+  #     name: example
 
 # Assign users as cluster-admins
 clusterAdmins:
@@ -17,5 +17,6 @@ dashboardPermissions:
   create: true
   clusterRoles:
     - view
-    - secret-lister
-    - cluster-viewer
+    # - secret-lister
+    # - cluster-object-viewer
+    # - cluster-admin

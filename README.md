@@ -2,13 +2,12 @@
 
 Try out Exekube with Alibaba Cloud Container Service for Kubernetes
 
-Uses Terraform modules from https://github.com/exekube/exekube/tree/alicloud (alicloud branch)
-
 > :warning:
 >
-> This is a work in progress
->
-> 😔 Alibaba Cloud ain't Google, cluster creation is really slow (20+ minutes)
+> - This is a work in progress
+> - Cluster creation can be really slow (20+ minutes)
+> - Free trial on Alibaba Cloud does NOT include NAT gateways fees
+> - Connecting to the cluster is not yet automated
 >
 > :warning:
 

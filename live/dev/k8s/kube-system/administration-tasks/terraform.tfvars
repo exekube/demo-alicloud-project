@@ -1,13 +1,13 @@
 # ↓ Module metadata
-
 terragrunt = {
   terraform {
-    source = "/exekube-modules//helm-initializer"
+    source = "/project/modules//administration-tasks"
   }
 
   dependencies {
     paths = [
       "../../cluster",
+      "../helm-initializer",
     ]
   }
 
@@ -18,4 +18,3 @@ terragrunt = {
 
 # ↓ Module configuration (empty means all default)
 
-tiller_namespace = "default"

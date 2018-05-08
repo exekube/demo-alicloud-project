@@ -1,8 +1,5 @@
-!**/.keep
-**/owner.json
-.config
+.config/
+.hide/
 live/**/secrets/**
-!live/**/secrets/.keep
-!live/**/secrets/terraform.tfvars
-!live/**/secrets/permissions.tf
 !live/**/secrets/*.example
+!live/**/secrets/.keep

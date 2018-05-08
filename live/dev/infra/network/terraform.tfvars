@@ -2,7 +2,7 @@
 
 terragrunt = {
   terraform {
-    source = "/exekube-modules//ali-network"
+    source = "/project/modules//ali-network"
   }
 
   include = {
